@@ -2,7 +2,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Create database: `frontend`
+-- Create database: `backend`
 --
 
 CREATE DATABASE IF NOT EXISTS `backend` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
@@ -11,7 +11,7 @@ USE `backend`;
 DROP TABLE IF EXISTS `Supplies`;
 
 --
--- Create tables
+-- Create table
 --
 
 CREATE TABLE `Supplies` (
