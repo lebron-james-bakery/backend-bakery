@@ -15,6 +15,15 @@ class Welcome extends Application
 	 */
 	public function index()
 	{
+        // Handle user-role to lock out certain types of users
+        $userrole = $this->session->userdata('userrole');
+        if ($userrole == 'guest') {
+            $message = 'You are not authorized to access this page. Go away';
+            $this->data['content'] = $message;
+            $this->render();
+            return;
+        }
+
 		// this is the view we want shown
 		$this->data['pagebody'] = 'homepage_view';
 
@@ -29,7 +38,9 @@ class Welcome extends Application
         // END OF EXAMPLE
 
         // build the list of recipes, to pass on to our homepage_view
-        $recipe_source = $this->recipes->all();
+        /*
+
+         $recipe_source = $this->recipes->all();
         $recipes = array ();
         foreach ($recipe_source as $record)
         {
@@ -54,7 +65,7 @@ class Welcome extends Application
         $this->data['total_stock_order'] = array_sum($total_stock_order);
 
         // build the list of supplies, to pass on to our homepage_view
-        $supply_source = $this->supplies->all();
+       /* $supply_source = $this->supplies->all();
         $supplies = array ();
         $total_supply_quantities = array ();
         $total_supply_Cost = array ();
@@ -75,7 +86,7 @@ class Welcome extends Application
         $this->data['average_supply_Cost'] = array_sum($total_supply_Cost) / count($supplies);
         $this->data['total_supply_receiving'] = array_sum($total_supply_receiving);
         $this->data['total_supply_stocking'] = array_sum($total_supply_stocking);
-
+*/
 
         $this->render();
 	}
