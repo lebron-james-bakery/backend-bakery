@@ -62,13 +62,45 @@ class Maintenance extends Rest_Controller
         $this->response(array('ok'), 200);
     }
 
-    // Handle an incoming PUT - update a menu item
-    function index_put()
+    // Handle an incoming PUT - update a new menu item - ID in URL
+    function item_put($key = null)
     {
-        $key = $this->get('id');
-        $record = array_merge(array('id' => $key), $this->_put_args);
+        $incoming = key($this->put());
+        // decode record before anything, as assoc array
+        $record = json_decode($incoming,true);
+
+        // item ID specified as segment or query parameter
+        if (($key == null) || ($key == 'id'))
+        {
+            $key = $this->get('id');
+            $record = array_merge(array('id' => $key), $record);
+        }
+        $this->crud_put($record);
+    }
+    // crUUUd - update an item in our table
+    private function crud_put($record = null)
+    {
+        $key = $record['id'];
+        // Make sure the new record has an ID
+        if (!isset($key))
+        {
+            $this->response(array('error' => 'Update: No item specified'), 406);
+            return;
+        }
+        // make sure the item is real
+        if (!$this->supplies->exists($key))
+        {
+            $this->response(array('error' => 'Update: Item ' . $key . ' not found'), 406);
+            return;
+        }
+        // proceed with update
         $this->supplies->update($record);
-        $this->response(array('ok'), 200);
+        // check for DB errors
+        $oops = $this->db->error();
+        if (empty($oops['code']))
+            $this->response(array('ok'), 200);
+        else
+            $this->response($oops, 400);
     }
 
     // Handle an incoming DELETE - delete a menu item
