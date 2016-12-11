@@ -35,5 +35,5 @@ class Supplies extends MY_Model {
         ];
         return $config;
     }
-    
+
 }
