@@ -77,7 +77,7 @@ class Maintenance extends Rest_Controller
         }
         $this->crud_put($record);
     }
-    // crUUUd - update an item in our table
+    // crud - update an item in our table
     private function crud_put($record = null)
     {
         $key = $record['id'];
